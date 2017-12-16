@@ -1,0 +1,9 @@
+{
+  "name": "goodeggs-domain-events",
+  "version": "14.0.0",
+  "description": "Asynchronous event-based communication between apps",
+  "main": "index.js",
+  "repository": "git@github.com:goodeggs/goodeggs-domain-events.git",
+  "author": "Max Edmands <max@goodeggs.com>",
+  "license": "MIT"
+}

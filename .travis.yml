@@ -1,0 +1,25 @@
+sudo: required
+dist: trusty
+
+language: node_js
+node_js:
+  - '4.2.6'
+
+services:
+- docker
+
+env:
+  global:
+    #- DEBUG=goodeggs-domain-events
+  - NODE_ENV=test
+  - FORCE_LOGS=yes
+  - secure: "HguVBzjCaDxXaJ2mCBubM06H63EI4pa1IT5m17C5BbiJSU6i6Ad0t4oNQg9yLDhOExRhHEsP3HBk72KCmZjhED/zZy+ekuLndPuXtgtwL4i6SjSgUb4L91YiG8pe42Oxm5rcf73a3J31ocY15SCPpS2WpUQB6pHs1i1Eu21v9vo=" # NPM_AUTH
+
+install: curl -sSL https://raw.githubusercontent.com/goodeggs/travis-utils/master/ops-npm-install.sh | sh
+
+before_script:
+- docker-compose up -d
+- sudo wget http://guest:guest@localhost:15672/cli/rabbitmqadmin -O /usr/local/bin/rabbitmqadmin
+- sudo chmod +x /usr/local/bin/rabbitmqadmin
+
+script: npm test
