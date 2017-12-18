@@ -30,19 +30,19 @@ parser.on('end', () => {
     const amqp = root.children[0];
     const constants = filterChildrenByNameAndMap(amqp, 'constant', getAttributesAndAsserts);
     const domains = filterChildrenByNameAndMap(amqp, 'domain', getAttributesAndAsserts);
-    const classes = filterChildrenByNameAndMap(amqp, 'class', t => Object.assign(
+    const classes = filterChildrenByNameAndMap(amqp, 'class', klass => Object.assign(
         {},
-        getAttributes(t),
+        getAttributes(klass),
         {
-            chassis: getChassis(t),
-            fields: getFields(t),
-            method: filterChildrenByNameAndMap(t, 'method', m => Object.assign(
+            chassis: getChassis(klass),
+            fields: getFields(klass),
+            method: filterChildrenByNameAndMap(klass, 'method', method => Object.assign(
                 {},
-                getAttributes(m),
+                getAttributes(method),
                 {
-                    chassis: getChassis(m),
-                    response: filterChildrenByNameAndMap(m, 'response', getAttributesAndAsserts)[0],
-                    fields: getFields(m),
+                    chassis: getChassis(method),
+                    response: filterChildrenByNameAndMap(method, 'response', getAttributesAndAsserts)[0],
+                    fields: getFields(method),
                 },
             ))
         }
@@ -61,9 +61,7 @@ function getAttributesAndAsserts (tag) {
         {},
         getAttributes(tag),
         {
-            validation: tag.children
-                .filter(c => c.name === 'assert')
-                .map(a => a.attributes),
+            validation: filterChildrenByNameAndMap(tag, 'assert', assert => assert.attributes),
         }
     );
 }
